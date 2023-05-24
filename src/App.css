@@ -42,9 +42,13 @@
 }
 
 button{
-  margin: 5px;
+  margin: 10px 5px;
 }
 
 li{
   list-style: none;
+}
+
+input{
+  margin: 10px 5px;
 }
