@@ -1,14 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css'
 import Contact from './components/Contact'
 import Filter from './components/Filter';
+
+
 const App = () => {
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', num: '040-123456' },
-        { name: 'Ada Lovelace', num: '39-44-5323523' },
-        { name: 'Dan Abramov', num: '12-43-234345' },
-        { name: 'Mary Poppendieck', num: '39-23-6423122' }
-      ])
+    const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [searchPerson, setSearchPerson] = useState([])
@@ -16,8 +14,20 @@ const App = () => {
     const [search, setNewSearch] = useState(' ')
     const [statusSearch, setStatusSearch] = useState (false)
 
-//Función para que el formulario no recargue la página
+//traer los valores desde el json
+useEffect(()=>{
+  axios
+  .get('http://localhost:3001/persons')
+  .then(res =>{
+    console.log(res.data)
+    setPersons(res.data)})
+  .catch(err => console.log(err))
+  },[])
+
+
+    //Función para que el formulario no recargue la página
 const noRecharge = (event) => event.preventDefault()
+
 
 
 
