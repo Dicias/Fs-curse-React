@@ -4,8 +4,8 @@ import './App.css'
 import Contact from './components/Contact'
 import Filter from './components/Filter';
 import contactService from './services/contact'
-
-
+import Success from './components/Success';
+import Fail from './components/Fail'
 const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
@@ -14,7 +14,8 @@ const App = () => {
     //console.log(searchPerson);
     const [search, setNewSearch] = useState(' ')
     const [statusSearch, setStatusSearch] = useState (false)
-
+    const [success, setSuccess] = useState(null)
+    const [fail, setFail] = useState(null)
 //traer los valores desde el json
 useEffect(()=>{
   contactService
@@ -94,7 +95,20 @@ const addName = (event) => {
         .then(res=>{
           console.log(res, 'desde update')
           setPersons(persons.map(person => person.id !== res.id ? person : res))
+          setSuccess(res.name)
+          setTimeout(()=>{
+            setSuccess(null)
+          }, 3000)
         })
+        .catch(err=>{
+          console.log(err);
+          setFail(person.name)
+          setTimeout(()=>{
+            setFail(null)
+          }, 3000)
+          setPersons(persons.filter(n => n.id !== person.id ))
+        })
+        
         .catch(err=> console.log(err))
         
         setNewName('')
@@ -111,6 +125,10 @@ const addName = (event) => {
     .create(nameObj)
     .then(contact =>{
       setPersons(persons.concat(contact))
+      setSuccess(contact.name)
+      setTimeout(()=>{
+        setSuccess(null)
+      }, 3000)
       setNewName('')
       setNewNumber('')
     })
@@ -165,6 +183,8 @@ return(
                 
             <div>
                 <button type="submit" onClick={addName}>add</button>
+                <Success complete={success} />
+                <Fail fail={fail} />
             </div>
         </form>
     <h2>Numbers</h2>
@@ -199,6 +219,8 @@ else{
                     
                 <div>
                     <button type="submit" onClick={addName}>add</button>
+                    <Success complete={success} />
+                    <Fail fail={fail} />
                 </div>
             </form>
         <h2>Numbers</h2>
