@@ -1,5 +1,5 @@
 
-const Contact = ({name, num, remove}) =><p>  {name}: {num} 
+const Contact = ({name, num, remove}) =><p className="contact">  {name}: {num} 
 <button onClick={remove}> delete </button>
 </p> 
 
