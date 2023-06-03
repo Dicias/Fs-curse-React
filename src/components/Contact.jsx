@@ -1,4 +1,6 @@
 
-const Contact = ({name, num}) =><p>  {name}: {num} </p> 
+const Contact = ({name, num, remove}) =><p>  {name}: {num} 
+<button onClick={remove}> delete </button>
+</p> 
 
 export default Contact
