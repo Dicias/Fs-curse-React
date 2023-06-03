@@ -3,11 +3,14 @@ import axios from 'axios';
 import './App.css'
 import Note from "./components/Note";
 import noteService from './services/notes'
+import Notification from './components/Notification'
+import Footer from './components/Footer';
 
 const App = () => {
 const [notes, setNotes] = useState([])
 const [newNote, setNewNote] = useState('new note...')
 const [showAll, setShowAll] = useState(true)
+const [errorMessage, setErrorMessage] = useState(null)
 //console.log(props);
 
 
@@ -62,15 +65,19 @@ const toggleImportanceOf = (id) =>{
 const url = `http://localhost:3001/notes/${id}`
 const note = notes.find(n => n.id === id)
 const changedNote = {...note, important: !note.important}
-/*
-axios.put(url, changedNote).then(res=>{
-  setNotes(notes.map(note => note.id !== id ? note : res.data))
-})
-*/
+
 noteService
 .update(id, changedNote)
 .then(returnNote => {
   setNotes(notes.map(note => note.id !== id ? note : returnNote))
+})
+.catch(error =>{
+  setErrorMessage(`${note.content} was already removed from server`)
+  setTimeout(()=>{
+    setErrorMessage(null)
+  },3000)
+  setNotes(notes.filter(n => n.id !== id))
+
 })
 }
 
@@ -82,6 +89,7 @@ const notesToShow = showAll
 return(
   <div>
     <h1>Notes</h1>
+    <Notification message={errorMessage} />
     <div>
   <button onClick={()=>setShowAll(!showAll)}> 
     show {showAll ? 'important' : 'all'}
@@ -100,6 +108,7 @@ return(
     <button type="submit">save</button>
   </form>
 
+<Footer />
   </div>
 )
 }
