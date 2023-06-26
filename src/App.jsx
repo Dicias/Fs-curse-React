@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import './App.css'
 import Contact from './components/Contact'
 import Filter from './components/Filter';
@@ -158,11 +157,7 @@ if(confirm){
   .catch(err=> console.log(err))
 }
 
-
-
 }
-
-
 
 if(statusSearch === false){
 
@@ -171,7 +166,7 @@ return(
         <h2>PhoneBook</h2>
         <form onSubmit={noRecharge}>
             <div>
-            <Filter handleFilter={handleFilter} />
+            <Filter handleFilter={handleFilter} value={search} />
                 
             </div>
         <h2>Add a new</h2>
@@ -190,14 +185,8 @@ return(
     <h2>Numbers</h2>
         <div>
             {persons.map((person, index) => <div key={index}><Contact name={person.name} num={person.num} remove={()=>remove(person.id)} />
-            
-            </div>)}
-            
-            
+            </div>)}            
         </div>
-
-
-
     </div>
 )
 }
@@ -228,18 +217,12 @@ else{
                 {searchPerson.map((person, index) => <div key={index}><Contact name={person.name} num={person.num} />
                 
                 </div>)}
-                
-                
+
             </div>
-    
-    
-    
         </div>
     )
 }
 
-
 }
-
 
 export default App;

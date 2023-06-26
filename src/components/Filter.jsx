@@ -1,6 +1,6 @@
 
-const Filter = ({handleFilter}) => <div><p>Filter shown with: </p>
-    <input onChange={handleFilter}/>
+const Filter = ({handleFilter, search}) => <div><p>Filter shown with: </p>
+    <input value={search} onChange={handleFilter}/>
      </div>
 
 export default Filter
